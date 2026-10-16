@@ -15,7 +15,7 @@ A complete **IED Protection Relay System** with:
 ### Step 1: Start the Web Dashboard
 
 ```bash
-cd /Users/AnirudhKamat7/Abhi/Projects/RTOS_IED_Substation
+cd RTOS_IED_Substation
 python3 -m http.server 8080 --directory gui
 ```
 
@@ -58,11 +58,11 @@ Since authentication failed, follow these steps:
 
 2. **Push to GitHub:**
 ```bash
-cd /Users/AnirudhKamat7/Abhi/Projects/RTOS_IED_Substation
+cd RTOS_IED_Substation
 
 # Configure git
-git config user.name "Abhi0p2005"
-git config user.email "your-email@example.com"
+git config user.name "YourGitHubUsername"
+git config user.email "your.email@example.com"
 
 # Push using token
 git push -u origin main
@@ -78,7 +78,7 @@ ls ~/.ssh/id_rsa.pub
 
 2. **If no key exists, create one:**
 ```bash
-ssh-keygen -t rsa -b 4096 -C "your-email@example.com"
+ssh-keygen -t rsa -b 4096 -C "your.email@example.com"
 # Press Enter for all prompts
 ```
 
@@ -94,8 +94,8 @@ cat ~/.ssh/id_rsa.pub
 
 4. **Change remote URL and push:**
 ```bash
-cd /Users/AnirudhKamat7/Abhi/Projects/RTOS_IED_Substation
-git remote set-url origin git@github.com:Abhi0p2005/RTOS-Substation-IED.git
+cd RTOS_IED_Substation
+git remote set-url origin git@github.com:YourUsername/YourRepo.git
 git push -u origin main
 ```
 
@@ -106,7 +106,7 @@ git push -u origin main
 ### For Native PC Simulator:
 
 ```bash
-cd /Users/AnirudhKamat7/Abhi/Projects/RTOS_IED_Substation
+cd RTOS_IED_Substation
 
 # Build
 pio run -e native
@@ -179,7 +179,7 @@ RTOS_IED_Substation/
 pkill -f "http.server"
 
 # Start fresh
-cd /Users/AnirudhKamat7/Abhi/Projects/RTOS_IED_Substation
+cd RTOS_IED_Substation
 python3 -m http.server 8080 --directory gui
 
 # Open browser manually to: http://localhost:8080

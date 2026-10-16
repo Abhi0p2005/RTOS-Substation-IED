@@ -900,7 +900,7 @@ Contributions welcome! Please:
 
 MIT License
 
-Copyright (c) 2026 [Your Name]
+Copyright (c) 2026
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -924,9 +924,8 @@ SOFTWARE.
 
 ## Contact & Support
 
-- **Issues**: [GitHub Issues](https://github.com/yourusername/rtos-ied-substation/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/rtos-ied-substation/discussions)
-- **Email**: your.email@example.com
+- **Issues**: [GitHub Issues](https://github.com/YourUsername/RTOS-Substation-IED/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/YourUsername/RTOS-Substation-IED/discussions)
 
 ---
 
