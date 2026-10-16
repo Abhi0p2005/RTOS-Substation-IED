@@ -1,0 +1,18 @@
+{
+  "name": "FreeRTOS-Posix",
+  "version": "10.5.1",
+  "build": {
+    "flags": [
+      "-I include",
+      "-I portable/ThirdParty/GCC/Posix",
+      "-I portable/ThirdParty/GCC/Posix/utils"
+    ],
+    "srcFilter": [
+      "+<*.c>",
+      "-<portable>",
+      "+<portable/MemMang/heap_3.c>",
+      "+<portable/ThirdParty/GCC/Posix/port.c>",
+      "+<portable/ThirdParty/GCC/Posix/utils/wait_for_event.c>"
+    ]
+  }
+}

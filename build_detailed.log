@@ -1,0 +1,11 @@
+Processing native (platform: native; build_flags: -std=gnu11, -DNATIVE_SIM, -DCONFIG_FREERTOS_HZ=1000, -I include, -I lib/FreeRTOS/include, -I lib/FreeRTOS/portable/ThirdParty/GCC/Posix, -I lib/FreeRTOS/portable/ThirdParty/GCC/Posix/utils, -pthread, -D_POSIX_C_SOURCE=200809L, -lm; lib_deps: ; build_src_filter: +<*>, -<hal_esp32.c>; lib_ldf_mode: deep)
+--------------------------------------------------------------------------------
+LDF: Library Dependency Finder -> https://bit.ly/configure-pio-ldf
+LDF Modes: Finder ~ deep, Compatibility ~ soft
+Found 1 compatible libraries
+Scanning dependencies...
+Dependency Graph
+|-- FreeRTOS-Posix @ 10.5.1 (License: Unknown, Path: /Users/AnirudhKamat7/Abhi/Projects/RTOS_IED_Substation/lib/FreeRTOS)
+Building in release mode
+gcc -o .pio/build/native/libdfc/FreeRTOS/portable/ThirdParty/GCC/Posix/port.o -c -std=gnu11 -pthread -DPLATFORMIO=60200 -DNATIVE_SIM -DCONFIG_FREERTOS_HZ=1000 -D_POSIX_C_SOURCE=200809L -Ilib/FreeRTOS -Iinclude -Ilib/FreeRTOS/include -Ilib/FreeRTOS/portable/ThirdParty/GCC/Posix -Ilib/FreeRTOS/portable/ThirdParty/GCC/Posix/utils -Ilib/FreeRTOS/include -Ilib/FreeRTOS/portable/ThirdParty/GCC/Posix -Ilib/FreeRTOS/portable/ThirdParty/GCC/Posix/utils lib/FreeRTOS/portable/ThirdParty/GCC/Posix/port.c
+

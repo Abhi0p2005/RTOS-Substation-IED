@@ -1,0 +1,42 @@
+Processing native (platform: native)
+--------------------------------------------------------------------------------
+Verbose mode can be enabled via `-v, --verbose` option
+LDF: Library Dependency Finder -> https://bit.ly/configure-pio-ldf
+LDF Modes: Finder ~ off, Compatibility ~ soft
+Found 1 compatible libraries
+Scanning dependencies...
+No dependencies
+Building in release mode
+Linking .pio/build/native/program
+Undefined symbols for architecture arm64:
+  "_vTaskDelay", referenced from:
+      _hmi_task in hmi.o
+  "_vTaskStartScheduler", referenced from:
+      _main in main.o
+  "_xQueueGenericCreate", referenced from:
+      _main in main.o
+      _main in main.o
+  "_xQueueGenericSend", referenced from:
+      _adc_task in main.o
+      _rms_task in main.o
+  "_xQueueReceive", referenced from:
+      _rms_task in main.o
+      _protection_task in main.o
+  "_xTaskCreate", referenced from:
+      _main in main.o
+      _main in main.o
+      _main in main.o
+      _main in main.o
+  "_xTaskDelayUntil", referenced from:
+      _adc_task in main.o
+  "_xTaskGetTickCount", referenced from:
+      _adc_task in main.o
+ld: symbol(s) not found for architecture arm64
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+*** [.pio/build/native/program] Error 1
+========================== [FAILED] Took 1.15 seconds ==========================
+
+Environment    Status    Duration
+-------------  --------  ------------
+native         FAILED    00:00:01.151
+==================== 1 failed, 0 succeeded in 00:00:01.151 ====================

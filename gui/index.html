@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IED Protection System - Control Panel</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: #fff;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            padding: 30px 0;
+            border-bottom: 2px solid rgba(255,255,255,0.2);
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .card h2 {
+            font-size: 1.3em;
+            margin-bottom: 20px;
+            color: #ffd700;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .led {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            transition: all 0.3s ease;
+        }
+
+        .led.green {
+            background: #00ff00;
+            box-shadow: 0 0 20px #00ff00;
+        }
+
+        .led.red {
+            background: #ff0000;
+            box-shadow: 0 0 20px #ff0000;
+            animation: pulse 1s infinite;
+        }
+
+        .led.gray {
+            background: #555;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .current-display {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+        }
+
+        .current-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 10px 0;
+        }
+
+        .current-label {
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .current-value {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #00ff00;
+        }
+
+        .current-value.warning {
+            color: #ffaa00;
+        }
+
+        .current-value.danger {
+            color: #ff0000;
+        }
+
+        .control-panel {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 15px 25px;
+            font-size: 1.1em;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-normal {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            color: #333;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            color: #333;
+        }
+
+        .meter {
+            width: 100%;
+            height: 30px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .meter-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00ff00 0%, #ffaa00 50%, #ff0000 100%);
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .trip-banner {
+            background: #ff0000;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            font-weight: bold;
+            animation: pulse 1s infinite;
+            display: none;
+        }
+
+        .trip-banner.active {
+            display: block;
+        }
+
+        .log {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 15px;
+            border-radius: 10px;
+            max-height: 200px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        .log-entry {
+            padding: 5px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .log-entry:last-child {
+            border-bottom: none;
+        }
+
+        .config-display {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+        }
+
+        .config-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 8px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⚡ IED Protection System</h1>
+            <p>Real-time ANSI 50/51 Protection Relay</p>
+        </div>
+
+        <div class="trip-banner" id="tripBanner">
+            🚨 TRIP CONDITION - CIRCUIT BREAKER OPEN 🚨
+        </div>
+
+        <div class="dashboard">
+            <!-- System Status Card -->
+            <div class="card">
+                <h2>System Status</h2>
+                <div class="status-indicator">
+                    <div class="led green" id="systemLed"></div>
+                    <span>System: <strong id="systemStatus">ONLINE</strong></span>
+                </div>
+                <div class="status-indicator">
+                    <div class="led gray" id="tripLed"></div>
+                    <span>Relay: <strong id="relayStatus">CLOSED</strong></span>
+                </div>
+                <div class="status-indicator">
+                    <div class="led gray" id="faultLed"></div>
+                    <span>Fault: <strong id="faultStatus">NONE</strong></span>
+                </div>
+            </div>
+
+            <!-- Current Readings Card -->
+            <div class="card">
+                <h2>Current Readings</h2>
+                <div class="current-display">
+                    <div class="current-row">
+                        <span class="current-label">Phase A:</span>
+                        <span class="current-value" id="currentA">5.0 A</span>
+                    </div>
+                    <div class="meter">
+                        <div class="meter-fill" id="meterA" style="width: 10%"></div>
+                    </div>
+                    
+                    <div class="current-row">
+                        <span class="current-label">Phase B:</span>
+                        <span class="current-value" id="currentB">5.0 A</span>
+                    </div>
+                    <div class="meter">
+                        <div class="meter-fill" id="meterB" style="width: 10%"></div>
+                    </div>
+                    
+                    <div class="current-row">
+                        <span class="current-label">Phase C:</span>
+                        <span class="current-value" id="currentC">5.0 A</span>
+                    </div>
+                    <div class="meter">
+                        <div class="meter-fill" id="meterC" style="width: 10%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Protection Settings Card -->
+            <div class="card">
+                <h2>Protection Settings</h2>
+                <div class="config-display">
+                    <h3 style="color: #ffd700; margin-bottom: 10px;">ANSI 50 - Instantaneous</h3>
+                    <div class="config-row">
+                        <span>Status:</span>
+                        <span><strong>ENABLED</strong></span>
+                    </div>
+                    <div class="config-row">
+                        <span>Pickup:</span>
+                        <span><strong>40.0 A</strong></span>
+                    </div>
+                    <div class="config-row">
+                        <span>Delay:</span>
+                        <span><strong>50 ms</strong></span>
+                    </div>
+                </div>
+                <div class="config-display" style="margin-top: 15px;">
+                    <h3 style="color: #ffd700; margin-bottom: 10px;">ANSI 51 - Time OC</h3>
+                    <div class="config-row">
+                        <span>Status:</span>
+                        <span><strong>ENABLED</strong></span>
+                    </div>
+                    <div class="config-row">
+                        <span>Pickup:</span>
+                        <span><strong>7.5 A</strong></span>
+                    </div>
+                    <div class="config-row">
+                        <span>TMS:</span>
+                        <span><strong>0.10</strong></span>
+                    </div>
+                    <div class="config-row">
+                        <span>Curve:</span>
+                        <span><strong>IEC Std Inverse</strong></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Control Panel -->
+        <div class="card">
+            <h2>Fault Injection Controls</h2>
+            <div class="control-panel">
+                <button class="btn btn-success" onclick="injectFault('none')">
+                    ✅ Normal Operation<br>
+                    <small>5.0 A (1.0x rated)</small>
+                </button>
+                <button class="btn btn-normal" onclick="injectFault('overload')">
+                    ⚠️ Overload<br>
+                    <small>7.5 A (1.5x rated)</small>
+                </button>
+                <button class="btn btn-warning" onclick="injectFault('heavy')">
+                    🔥 Heavy Fault<br>
+                    <small>15.0 A (3.0x rated)</small>
+                </button>
+                <button class="btn btn-danger" onclick="injectFault('instant')">
+                    💥 Instantaneous<br>
+                    <small>40.0 A (8.0x rated)</small>
+                </button>
+            </div>
+        </div>
+
+        <!-- Event Log -->
+        <div class="card">
+            <h2>Event Log</h2>
+            <div class="log" id="eventLog">
+                <div class="log-entry">System initialized successfully</div>
+                <div class="log-entry">Protection monitoring started</div>
+                <div class="log-entry">Normal operation - 5.0A per phase</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentFault = 'none';
+        let currentValues = { a: 5.0, b: 5.0, c: 5.0 };
+        let isTripped = false;
+        let tripTime = 0;
+
+        function injectFault(type) {
+            currentFault = type;
+            logEvent(`Fault injection: ${getFaultName(type)}`);
+            
+            switch(type) {
+                case 'none':
+                    currentValues = { a: 5.0, b: 5.0, c: 5.0 };
+                    isTripped = false;
+                    document.getElementById('faultLed').className = 'led gray';
+                    document.getElementById('faultStatus').textContent = 'NONE';
+                    document.getElementById('tripBanner').classList.remove('active');
+                    document.getElementById('tripLed').className = 'led gray';
+                    document.getElementById('relayStatus').textContent = 'CLOSED';
+                    break;
+                case 'overload':
+                    currentValues = { a: 7.5, b: 7.5, c: 7.5 };
+                    document.getElementById('faultLed').className = 'led green';
+                    document.getElementById('faultStatus').textContent = 'OVERLOAD (1.5x)';
+                    tripTime = Date.now() + 5000; // Trip in ~5 seconds for ANSI 51
+                    break;
+                case 'heavy':
+                    currentValues = { a: 15.0, b: 15.0, c: 15.0 };
+                    document.getElementById('faultLed').className = 'led green';
+                    document.getElementById('faultStatus').textContent = 'HEAVY (3.0x)';
+                    tripTime = Date.now() + 1500; // Trip in ~1.5 seconds
+                    break;
+                case 'instant':
+                    currentValues = { a: 40.0, b: 40.0, c: 40.0 };
+                    document.getElementById('faultLed').className = 'led red';
+                    document.getElementById('faultStatus').textContent = 'INSTANTANEOUS (8.0x)';
+                    tripTime = Date.now() + 50; // Trip in ~50ms
+                    break;
+            }
+            
+            updateDisplay();
+        }
+
+        function getFaultName(type) {
+            const names = {
+                'none': 'Normal Operation (5.0A)',
+                'overload': 'Overload (7.5A - 1.5x rated)',
+                'heavy': 'Heavy Fault (15.0A - 3.0x rated)',
+                'instant': 'Instantaneous Fault (40.0A - 8.0x rated)'
+            };
+            return names[type] || type;
+        }
+
+        function updateDisplay() {
+            // Update current values
+            updateCurrent('A', currentValues.a);
+            updateCurrent('B', currentValues.b);
+            updateCurrent('C', currentValues.c);
+
+            // Check for trip condition
+            if (!isTripped && tripTime > 0 && Date.now() >= tripTime) {
+                triggerTrip();
+            }
+        }
+
+        function updateCurrent(phase, value) {
+            const elem = document.getElementById(`current${phase}`);
+            const meter = document.getElementById(`meter${phase}`);
+            
+            elem.textContent = value.toFixed(1) + ' A';
+            
+            // Color coding
+            if (value >= 40) {
+                elem.className = 'current-value danger';
+            } else if (value >= 7.5) {
+                elem.className = 'current-value warning';
+            } else {
+                elem.className = 'current-value';
+            }
+            
+            // Meter bar (max at 50A)
+            const percentage = Math.min((value / 50) * 100, 100);
+            meter.style.width = percentage + '%';
+        }
+
+        function triggerTrip() {
+            isTripped = true;
+            tripTime = 0;
+            
+            const reason = currentFault === 'instant' ? 'ANSI 50 (Instantaneous)' : 'ANSI 51 (Time Overcurrent)';
+            
+            logEvent(`🚨 TRIP EVENT: ${reason}`);
+            logEvent(`Fault current: ${currentValues.a.toFixed(1)}A`);
+            
+            document.getElementById('tripBanner').classList.add('active');
+            document.getElementById('tripLed').className = 'led red';
+            document.getElementById('relayStatus').textContent = 'OPEN (TRIPPED)';
+        }
+
+        function logEvent(message) {
+            const log = document.getElementById('eventLog');
+            const timestamp = new Date().toLocaleTimeString();
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            entry.textContent = `[${timestamp}] ${message}`;
+            log.insertBefore(entry, log.firstChild);
+            
+            // Keep only last 20 entries
+            while (log.children.length > 20) {
+                log.removeChild(log.lastChild);
+            }
+        }
+
+        // Update display every 100ms
+        setInterval(updateDisplay, 100);
+
+        // Initialize
+        updateDisplay();
+    </script>
+</body>
+</html>

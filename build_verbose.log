@@ -1,0 +1,10 @@
+Processing native (platform: native; build_flags: -std=gnu11, -DNATIVE_SIM, -DCONFIG_FREERTOS_HZ=1000, -I include, -I lib/FreeRTOS/include, -I lib/FreeRTOS/portable/ThirdParty/GCC/Posix, -I lib/FreeRTOS/portable/ThirdParty/GCC/Posix/utils, -pthread, -D_POSIX_C_SOURCE=200809L; lib_deps: ; build_src_filter: +<*>, -<hal_esp32.c>; lib_archive: False; lib_ldf_mode: off)
+--------------------------------------------------------------------------------
+LDF: Library Dependency Finder -> https://bit.ly/configure-pio-ldf
+LDF Modes: Finder ~ off, Compatibility ~ soft
+Found 1 compatible libraries
+Scanning dependencies...
+No dependencies
+Building in release mode
+gcc -o .pio/build/native/program -pthread .pio/build/native/src/config.o .pio/build/native/src/fsm/trip_fsm.o .pio/build/native/src/hal_sim.o .pio/build/native/src/hmi/hmi.o .pio/build/native/src/main.o .pio/build/native/src/protection/ansi50.o .pio/build/native/src/protection/ansi51.o .pio/build/native/src/protection/protection.o .pio/build/native/src/rms.o -L.pio/build/native
+

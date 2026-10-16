@@ -1,0 +1,14 @@
+.pio
+.vscode
+*.o
+*.elf
+*.bin
+*.a
+*.log
+build/
+.DS_Store
+__pycache__/
+*.pyc
+.cache/
+test_main.o
+build_*.log
